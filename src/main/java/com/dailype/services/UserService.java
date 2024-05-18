@@ -15,4 +15,5 @@ public interface UserService {
     List<User> getUserByMobNum(String mobNum);
     void deleteUser(Integer userId);
 //    void bulkUpdate(UserDto userDtoList);
+    List<User> getUsers(Integer userId);
 }

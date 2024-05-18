@@ -75,6 +75,11 @@ public class UserServiceImpl implements UserService {
         this.userRepo.delete(user);
     }
 
+    @Override
+    public List<User> getUsers(Integer userId) {
+           return this.userRepo.findUserByManager(userId);
+    }
+
 
 //    @Override
 //    public void bulkUpdate(UserDto userDtoList) {

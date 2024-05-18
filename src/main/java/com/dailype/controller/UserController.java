@@ -39,6 +39,12 @@ public class UserController {
         return ResponseEntity.ok(this.userService.getAllUser());
     }
 
+    @GetMapping("/get_users/{userId}")
+    public ResponseEntity<List<User>> getUsers(@PathVariable Integer userId){
+        return ResponseEntity.ok(this.userService.getUsers((userId)));
+    }
+
+
     @GetMapping("/by_manager/{managerId}/get_users")
     public ResponseEntity<List<User>> getUsersByManagerId(@PathVariable UUID managerId) {
         List<User> users = userService.getUsersByManagerId(managerId);
