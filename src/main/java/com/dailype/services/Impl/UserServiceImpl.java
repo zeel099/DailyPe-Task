@@ -77,8 +77,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsers(Integer userId) {
-           return this.userRepo.findUserByManager(userId);
+           return this.userRepo.findByUserIdGreaterThanOrderByUserId(userId);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //    @Override

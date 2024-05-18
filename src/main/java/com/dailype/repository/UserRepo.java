@@ -16,7 +16,6 @@ public interface UserRepo extends JpaRepository<User,Integer> {
     List<User> findByManagerId(UUID managerId);
     List<User> findByMobNum(String mobNum);
 
-    @Query("select u from User u where u.userId > : uId ORDER BY u.userId" )
-    List<User> findUserByManager(@Param("uId") Integer uId);
+    List<User> findByUserIdGreaterThanOrderByUserId(Integer userId);
 
 }
