@@ -34,7 +34,7 @@ public class UserDto {
     private LocalDateTime updatedAt;
     private boolean isActive;
 
-
+    private List<Integer> users;
 
 
 }

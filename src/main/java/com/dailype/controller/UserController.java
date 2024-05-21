@@ -6,6 +6,7 @@ import com.dailype.entity.User;
 import com.dailype.exceptions.UserNotFoundException;
 import com.dailype.payload.ApiResponse;
 import com.dailype.payload.UserDto;
+import com.dailype.response.FetchUserResponse;
 import com.dailype.response.ResponseHandler;
 import com.dailype.services.UserService;
 import jakarta.validation.Valid;
@@ -56,12 +57,28 @@ public class UserController {
         return new ApiResponse("User is succesfully deleted !!",true);
     }
 
+    @GetMapping("/{rootUserId}/fetch-user")
+    public FetchUserResponse getUserTree(@PathVariable Integer rootUserId) {
+        return userService.constructUserTree(rootUserId);
+    }
+
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
     @GetMapping("{mobNum}/get_users")
     public ResponseEntity<List<User>> getUserByMobNum(@PathVariable String mobNum) {
         List<User> users = userService.getUserByMobNum(mobNum);
         return ResponseEntity.ok(users);
 //        return ResponseEntity.ok(this.userService.getUserByMobNum(mobNum));
     }
+
+
+
+
+
+
 
 //    @PutMapping("/bulk_update")
 //    public ResponseEntity<String> bulkUpdate(@RequestBody UserDto userDto){

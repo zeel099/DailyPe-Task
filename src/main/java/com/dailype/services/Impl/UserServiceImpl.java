@@ -5,11 +5,14 @@ import com.dailype.exceptions.ResourceNotFoundException;
 import com.dailype.exceptions.UserNotFoundException;
 import com.dailype.payload.UserDto;
 import com.dailype.repository.UserRepo;
+import com.dailype.response.FetchUserResponse;
 import com.dailype.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -80,22 +83,35 @@ public class UserServiceImpl implements UserService {
            return this.userRepo.findByUserIdGreaterThanOrderByUserId(userId);
     }
 
+    @Override
+    public FetchUserResponse constructUserTree(Integer rootUserId) {
+        List<User> userList = userRepo.findAll();
+        Map<Integer, User> userMap = new HashMap<>();
+        for (User user : userList) {
+            userMap.put(user.getUserId(), user);
+        }
+        return buildTree(userMap, rootUserId);
+    }
 
+    @Override
+    public List<User> getAllUsers() {
+        return userRepo.findAll();
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    private FetchUserResponse buildTree(Map<Integer, User> userMap, Integer userId) {
+        User user = userMap.get(userId);
+        if (user == null) {
+            return null;
+        }
+        FetchUserResponse response = new FetchUserResponse(user.getFull_name());
+        for (Integer childUserId : user.getUsers()) {
+            FetchUserResponse childResponse = buildTree(userMap, childUserId);
+            if (childResponse != null) {
+                response.addUser(childResponse);
+            }
+        }
+        return response;
+    }
 
 
 
